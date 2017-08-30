@@ -1,6 +1,15 @@
 Rails.application.routes.draw do
   devise_for :users, controllers: { omniauth_callbacks: "users/omniauth_callbacks" }
 
+  #dashboard router
+  get '/dashboard/all' => 'dashboard#all'
+  get '/dashboard/user' => 'dashboard#user_query_no_time'  
+  get '/dashboard/page' => 'dashboard#page'
+  get '/dashboard'  => 'dashboard#showall'
+  get '/dashboard/index' => 'dashboard#query'
+  get '/dashboard/assign' => 'dashboard#assign'  
+  get '/dashboard/date' => 'dashboard#user_query_time'
+
   # Hoptoad Notifier Routes
   match '/notifier_api/v2/notices' => 'notices#create', via: [:get, :post]
   get '/locate/:id' => 'notices#locate', :as => :locate
@@ -71,5 +80,5 @@ Rails.application.routes.draw do
   match '/api/v3/projects/:project_id/create-notice' => 'api/v3/notices#create', via: [:post]
   match '/api/v3/projects/:project_id/notices' => 'api/v3/notices#create', via: [:post, :options]
 
-  root to: 'apps#index'
+  root to: 'dashboard#showall'
 end

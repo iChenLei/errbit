@@ -9,6 +9,25 @@
 [gemnasium-img-url]:https://gemnasium.com/errbit/errbit.png
 [gemnasium-url]:https://gemnasium.com/errbit/errbit
 [heroku-deploy-url]:https://heroku.com/deploy?template=https://github.com/errbit/errbit/tree/master
+## @ichenlei/new-feature-dashboard
+<table>
+  <tr>
+    <td align="center">
+      <a href="#" target="_blank" title="Apps">
+        <img style="height:180px;" src="https://i.loli.net/2017/08/30/59a6dcc1384a8.png" alt="Apps">
+      </a>
+      <br />
+      <em>Dashboard page</em>
+    </td>
+    <td align="center">
+      <a href="#" target="_blank" title="Errors">
+        <img style="height:180px;" src="https://i.loli.net/2017/08/30/59a6dd359c56a.png" alt="Errors">
+      </a>
+      <br />
+      <em>Query page</em>
+    </td>
+  </tr>
+</table>
 
 ### The open source, self-hosted error catcher
 
