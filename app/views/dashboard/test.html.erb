@@ -1,0 +1,104 @@
+
+ <%= render 'dashboard/index' %>
+
+<div class="query-table">
+            <table>
+                <thead>
+                    <tr>
+                    <th>what@where</th>
+                    <th>date</th>
+                    <th>count</th>
+                    <th>link</th>
+                    <th>assignee</th>
+                    <th>action</th>
+                    </tr>
+                </thead>
+                <tbody>
+        <% @infos.each do |issue| %>
+                    <tr>
+                        <td><%= issue[:problems].error_class %>@<%= issue[:problems].where %></td>
+                        <td><%= time_ago_in_words(issue[:problems].last_notice_at) %></td>
+                        <td><%= issue[:problems].notices_count %></td>
+                        <td><a href="<%= request.base_url %>/apps/<%= issue[:problems].app_id %>/problems/<%= issue[:problems]._id %>">link</a></td>
+                        <td>
+                            <select class="assign_link_select" id="p<%= issue[:problems]._id %>">
+                                <% if issue[:user] == nil %>
+                                    <option value="none" selected>N／A</option>
+                                    <% @users.each do |user| %>
+                                        <option value="<%= user._id %>"><%= user.name %></option>                                
+                                    <% end %>
+                                <% else %>
+                                    <option value="nil">N／A</option>                                    
+                                    <% @users.each do |user| %>
+                                        <% if user._id == issue[:user]._id  %>
+                                        <option value="<%= user._id %>" selected><%= user.name %></option>
+                                        <% else %>
+                                        <option value="<%= user._id %>"><%= user.name %></option>                                
+                                        <% end %> 
+                                    <% end %>
+                                <% end %>                                                                                                 
+                            </select>
+                        </td>
+                        <td>
+                            <div class="assign_link">
+                                <a href="#" class="p<%= issue[:problems]._id %>">assign</a>
+                            </div>    
+                        </td>
+                    </tr>
+         <% end %>    
+                </tbody>
+            </table>
+          <% if @infos.length == 0 %>  
+            <div class="nodata">
+                <h3>No data here</h3>
+            </div>
+          <% end %>
+    </div>
+    <style>
+        .nodata{
+            display:flex;
+            align-items:center;
+            justify-content:center;
+        }
+
+        .assign_link{
+            color:white;
+            border-radius:4px;
+            width:50px;
+            height:20px;
+            background-color:#dadada;
+            display:flex;
+            justify-content:center;
+            align-items:center;
+        }
+    </style>
+
+    <script type="text/javascript">
+     $(document).ready(
+       function(){  
+        var selects = document.querySelectorAll('.assign_link_select'); 
+        <%# for(var i = 0;i < selects.length;++i){
+            selects[i].addEventListener('change',function(e){
+                var user_id = e.target.value;
+                var problem_id = selects[i].id;
+                console.log(user_id,problem_id);
+                var link = document.querySelector("."+problem_id.toString());
+                link.href = `http://localhost:3000/dashboard/assign?p_id=${problem_id}&u_id=${user_id}`;
+            });
+        }     %>
+
+        selects.forEach(function(select){
+            select.addEventListener('change',function(e){
+                var user_id = e.target.value;
+                var problem_id = select.id;
+                console.log(user_id,problem_id);
+                var link = document.querySelector("."+problem_id.toString());
+                var p_id = problem_id.substr(1);
+                link.href = `/dashboard/assign?p_id=${p_id}&u_id=${user_id}`;
+            })
+        });
+
+       });
+    </script>
+
+    <%= render 'dashboard/page' %>

@@ -1,0 +1,45 @@
+<div class="pagination-div">
+    <ul class="pagination">
+        <% if @start == 1 %>
+            <li><a href="#">< prev</a></li>
+            <% else %>
+            <li><a href="<%= @url %>&page=<%= @start-9 %>">< prev</a></li>
+        <% end %>
+
+        <% for i in @start..@end %>
+            <% if i==@current_page %>
+            <li><a href="#"><span class="disable"><%= i %></span></a></li>    
+                <% else %>
+            <li><a href="<%= @url %>&page=<%= i %>"><%= i %></a></li>
+            <% end %>
+        <% end %>
+
+        <% if @start+10 < @page_count %>
+            <li><a href="<%= @url %>&page=<%= @end %>">next ></a></li>
+        <% end %>
+    <ul>
+</div>
+<style>
+    .pagination{
+        display:inline-block;
+    }
+    .pagination-div{
+        width:100%;
+    }
+    .pagination > li{
+        display:inline;
+    }
+    .pagination > li > a{
+        border:1px solid #e4e4e4;
+        color:#b4b4b4;
+        text-decoration:none;
+        padding:6px 12px;
+        float:left;
+    }
+    .pagination > li > a:hover{
+        color:#00b5ad;
+    }
+    .disable{
+        color:#00b5ad;
+    }
+</style>

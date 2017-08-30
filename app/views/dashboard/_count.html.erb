@@ -1,0 +1,179 @@
+<div id="dashboard">
+    <%# <div id="count-all-report">
+        <div></div>
+        <div></div>
+    </div> %>
+    <div id="user-panel">
+    <div id="count-all-report">
+        <div id="logo">
+            <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRzrXCjIaxK-Sl-SnVkxfX-JutPHBYwu1CY-BSIQ9bl_K0klqr5"></img>
+        </div>
+        <div class="all-count"><span>Reolved errors</span><span>230</span></div>
+        <div class="all-count"><span>Unreolved errors</span><span>230</sapn></div>
+        <div class="all-count"><span>Unassigned errors</span><span>230</span></div>
+    </div>
+
+    <div id="waterflow">
+
+    <% for i in 1..5 %>
+    <div id="user-show-count">
+
+        <div class="user-dashboard">
+            <div class="user-dashboard-head">
+                <div class="float user-dashboard-avatar">
+                    <%= gravatar_tag(@user.email)  %>
+                </div>
+                <div class="float user-dashboard-info">
+                    <p><%= @user.name %></p>
+                    <span><%= @user.email%></span>
+                </div>
+                <div class="user-self-count">
+                    <div class="count green">
+                        <em>34</em>
+                    </div>
+                    <div class="count red">
+                        <em>45</em>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <br>
+        <div class="float dashboard-bug-list">
+            <table>
+                <thead>
+                    <tr>
+                    <th>where</th>
+                    <th>what</th>
+                    <th>date</th>
+                    <th>count</th>
+                    <th>link</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>undefined method</td>
+                        <td>perrmisson#index</td>
+                        <td>2 mintues ago</td>
+                        <td>390</td>
+                        <td><a href="#">bug info</a></td>
+                    </tr>
+                    <tr>
+                        <td>unsupport bgk</td>
+                        <td>user#show</td>
+                        <td>2 mintues ago</td>
+                        <td>23</td>
+                        <td><a href="#">bug info</a></td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+
+    </div>
+    <% end %>
+
+    </div>
+    </div>
+</div>
+
+<style>
+
+    #waterflow{
+        column-count: 2;
+        column-gap: 15px;
+        column-fill: balance;
+        column-width: 250px; 
+        break-inside: avoid;     
+    }
+
+    #waterflow div{
+        display:inline-block;
+    }
+
+    #logo{
+        margin:10px 0px 0px 10px;
+    }
+
+    .all-count span{
+        margin-left:20px;
+        font-size:1.5em;
+    }
+
+    .all-count{
+        width:auto;
+        display:flex;
+        height:60px;
+        margin:0px 0px 0px 20px ;
+        align-items:center;
+        flex-direction:row;
+    }
+
+    #user-panel{
+        display:flex;
+        flex-wrap:wrap;
+        flex-direction:row;
+        height:auto;
+        width:930px;
+    }
+
+    .user-self-count em{
+        border-radius:5px;
+        padding:10px;
+        color:white;
+    }
+
+    .user-self-count{
+        display:flex;
+        align-items:center;
+        justify-content:center;
+        flex-direction:row;
+    }
+
+    .user-self-count .count{
+            margin:10px;
+            border-radius:10px;
+    }
+
+    .green{
+        background-color:green;
+    }
+
+    .red{
+        background-color:red;
+    }
+
+    #user-show-count{
+        display:flex;
+        width:450px;
+        flex-wrap:wrap;
+    }
+
+    #count-all-report{
+        width:930px;
+        height:100px;
+        display:flex;
+        flex-direction:row;
+    }
+
+    .user-dashboard-head{
+        display:flex;
+        width:450px;
+        margin-bottom:10px;
+    }
+    .float{
+        float:left;
+        margin-right:20px;
+    }
+    img{
+        width:50px;
+        height:50px;
+    }
+
+    table{
+        width:430px;
+    }
+
+    td{
+        text-overflow:ellipsis;
+    }
+</style>

@@ -1,0 +1,164 @@
+<script type="text/javascript" src="//cdn.jsdelivr.net/jquery/1/jquery.min.js"></script>
+<script type="text/javascript" src="//cdn.jsdelivr.net/momentjs/latest/moment.min.js"></script>
+<link rel="stylesheet" type="text/css" href="//cdn.jsdelivr.net/bootstrap/3/css/bootstrap.css" />
+
+<script type="text/javascript" src="//cdn.jsdelivr.net/bootstrap.daterangepicker/2/daterangepicker.js"></script>
+<link rel="stylesheet" type="text/css" href="//cdn.jsdelivr.net/bootstrap.daterangepicker/2/daterangepicker.css" />
+
+<style>
+    body{
+        background-color:#e6e6e6
+    }
+    .query-header{
+        margin-bottom:10px;
+        height:45px;
+        display:flex;
+        flex-direction:row;
+        align-items:center;
+    }
+    .query-item{
+        margin-right:20px;
+    }
+    .query-item button{
+        float:right;
+        height:32px;
+        border-radius:4px;
+        color:#fff;
+        background-color:#28a745;
+        border:0px;
+        padding:0px 10px;
+        background-image:linear-gradient(-180deg, #34d058 0%, #28a745 90%);
+    }
+
+    #query_url{
+        color:white;
+        text-decoration:none;
+    }
+</style>
+
+<div class="query-header">
+    <div class="query-item">
+        <span>Quick Query Link:</span>
+    </div>
+    <div class="query-item">
+        <span><a href="<%= request.base_url %>/dashboard/all?fliter=allresolved">All Resolved</a></span>
+    </div>
+    <div class="query-item">
+        <span><a href="<%= request.base_url %>/dashboard/all?fliter=allunresolved">All Unresolved</a></span>
+    </div>
+    <div class="query-item">
+        <span><a href="<%= request.base_url %>/dashboard/all?fliter=allunassigned">All Unassigned</a></span>
+    </div>
+</div>
+<div class="query-header">
+
+    <div class="query-item">
+        <span>Condition Query:</span>
+    </div>
+
+    <div class="query-item">
+        <select style="height:32px;" id="select_user">
+         <% @users.each do |user| %>
+            <option value="<%= user._id %>"><%= user.name %></option>
+         <% end %>
+        </select>
+    </div>
+    <div class="query-item">
+        <select style="height:32px;" id="select_bool">
+            <option value="true">Resolved</option>
+            <option value="false" selected>Unresolved</option>
+        </select>
+    </div>
+    <div class="query-item">
+        <div id="reportrange" class="pull-right" style="background: #fff; cursor: pointer; padding: 5px 10px; border: 1px solid #ccc; width: 285px;">
+            <i class="glyphicon glyphicon-calendar fa fa-calendar"></i>&nbsp;
+            <span></span> <b class="caret"></b>
+        </div>
+    </div> 
+    <div class="query-item button">
+        <button><a id="query_url" href="#">Query</a></button> 
+    </div>
+</div>    
+
+<div class="query-table">
+            <table>
+                <thead>
+                    <tr>
+                    <th>what</th>
+                    <th>date</th>
+                    <th>count</th>
+                    <th>link</th>
+                    <th>assigner</th>
+                    <th>action</th>
+                    </tr>
+                </thead>
+                <tbody>
+        <% for i in 1..10 %>
+                    <tr>
+                        <td>perrmisson#index</td>
+                        <td>2 mintues ago</td>
+                        <td>390</td>
+                        <td><a href="#">bug info</a></td>
+                        <td>
+                            <select>
+                                <option value="admin">Admin</option>
+                                <option value="chenlei">Chenlei</option>                                
+                            </select>
+                        </td>
+                        <td><a href="#">assgin!</a></td>
+                    </tr>
+                    <tr>
+                        <td>user#show</td>
+                        <td>2 mintues ago</td>
+                        <td>23</td>
+                        <td><a href="#">bug info</a></td>
+                        <td>
+                            <select>
+                                <option value="chenlei">Chenlei</option>                                
+                                <option value="admin">Admin</option>
+                            </select>
+                        </td>
+                        <td><a href="#">assgin!</a></td>
+                    </tr>
+         <% end %>   
+                </tbody>
+            </table>
+    </div>
+
+<script type="text/javascript">
+$(function() {
+
+    var start = moment().subtract(29, 'days');
+    var end = moment();
+
+    function cb(start, end) {
+        $('#reportrange span').html(start.format('MMMM D, YYYY') + ' - ' + end.format('MMMM D, YYYY'));
+    }
+
+    $('#reportrange').daterangepicker({
+        startDate: start,
+        endDate: end,
+        ranges: {
+           'Today': [moment(), moment()],
+           'Yesterday': [moment().subtract(1, 'days'), moment().subtract(1, 'days')],
+           'Last 7 Days': [moment().subtract(6, 'days'), moment()],
+           'Last 30 Days': [moment().subtract(29, 'days'), moment()],
+           'This Month': [moment().startOf('month'), moment().endOf('month')],
+           'Last Month': [moment().subtract(1, 'month').startOf('month'), moment().subtract(1, 'month').endOf('month')]
+        }
+    }, cb);
+
+    cb(start, end);
+
+    var startdate,enddate;
+    var date_range_query = document.querySelector("#query_url");
+    $('#reportrange').on('apply.daterangepicker', function(ev, picker) {
+        startdate = picker.startDate.format('YYYY-MM-DD');
+        enddate = picker.endDate.format('YYYY-MM-DD');
+        console.log(picker.startDate.format('YYYY-MM-DD'));
+        console.log(picker.endDate.format('YYYY-MM-DD'));
+        date_range_query.href = `${window.location.origin}/dashboard/date?startdate=${startdate}&enddate=${enddate}`
+    });
+    
+});
+</script>

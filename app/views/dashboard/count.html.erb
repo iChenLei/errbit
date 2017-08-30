@@ -1,0 +1,174 @@
+<div id="dashboard">
+    <div id="user-panel">
+    <div id="count-all-report">
+        <div id="logo">
+            <%# <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRzrXCjIaxK-Sl-SnVkxfX-JutPHBYwu1CY-BSIQ9bl_K0klqr5"></img> %>
+            <%= image_tag "sflogo.png" %>
+        </div>
+        <div class="all-count"><span>Reolved errors</span><span><a href="<%= request.base_url %>/dashboard/all?fliter=allresolved"><%= @resolvederrors %></a></span></div>
+        <div class="all-count"><span>Unreolved errors</span><span><a href="<%= request.base_url %>/dashboard/all?fliter=allunresolved"><%= @unresolvederrors %></a></sapn></div>
+        <div class="all-count"><span>Unassigned errors</span><span><a href="<%= request.base_url %>/dashboard/all?fliter=allunassigned"><%= @unassignederrors %></a></span></div>
+    </div>
+
+    <div id="waterflow">
+
+    <% @infos.each do |info| %>
+    <div id="user-show-count">
+
+        <div class="user-dashboard">
+            <div class="user-dashboard-head">
+                <div class="float user-dashboard-avatar">
+                    <%= gravatar_tag(info[:user].email)  %>
+                </div>
+                <div class="float user-dashboard-info">
+                    <p><%= info[:user].name %></p>
+                    <span><%= info[:user].email%></span>
+                </div>
+                <div class="user-self-count">
+                    <div class="count green">
+                        <em><a href="dashboard/user?userid=<%= info[:user]._id %>&resolved=true" style="background-color:transparent;border:0px"><%= info[:resolved_count] %></a></em>
+                    </div>
+                    <div class="count red">
+                        <em><a href="dashboard/user?userid=<%= info[:user]._id %>&resolved=false" style="background-color:transparent;border:0px"><%= info[:unresolved_count]%></a></em>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <br>
+        <div class="float dashboard-bug-list">
+            <table>
+                    <% if info[:problems].length == 0 %>
+                        <thead><tr><th>No assigned issue yet</th></tr></thead>
+                    <% else %>    
+                <thead>
+                    <tr>
+                    <th>where</th>
+                    <th>what</th>
+                    <th>latest</th>
+                    <th>count</th>
+                    <th>link</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <% info[:problems].each do |issue| %>
+                    <tr>
+                        <td><%= issue.error_class %></td>
+                        <td><%= issue.where %></td>
+                        <td><%= time_ago_in_words(issue.last_notice_at) %></td>
+                        <td><%= issue.notices_count %></td>
+                        <td><a href="<%= request.base_url %>/apps/<%= issue.app_id %>/problems/<%= issue._id %>">link</a></td>
+                    </tr>
+                    <% end %>
+                </tbody>
+                    <% end %>
+            </table>
+        </div>
+    
+    </div>
+    <% end %>
+    </div>
+    </div>
+</div>
+
+<style>
+
+    #waterflow{
+        column-count: 2;
+        column-gap: 15px;
+        column-fill: balance;
+        column-width: 250px; 
+        break-inside: avoid;     
+    }
+
+    #waterflow div{
+        display:inline-block;
+    }
+
+    #logo{
+        margin:10px 0px 0px 10px;
+    }
+
+    .all-count span{
+        margin-left:20px;
+        font-size:1.5em;
+    }
+
+    .all-count{
+        width:auto;
+        display:flex;
+        height:60px;
+        margin:0px 0px 0px 20px ;
+        align-items:center;
+        flex-direction:row;
+    }
+
+    #user-panel{
+        display:flex;
+        flex-wrap:wrap;
+        flex-direction:row;
+        height:auto;
+        width:930px;
+    }
+
+    .user-self-count em{
+        border-radius:5px;
+        padding:10px;
+        color:white;
+    }
+
+    .user-self-count{
+        display:flex;
+        align-items:center;
+        justify-content:center;
+        flex-direction:row;
+    }
+
+    .user-self-count .count{
+            margin:10px;
+            border-radius:10px;
+    }
+
+    .green{
+        background-color:green;
+    }
+
+    .red{
+        background-color:red;
+    }
+
+    #user-show-count{
+        display:flex;
+        width:450px;
+        flex-wrap:wrap;
+    }
+
+    #count-all-report{
+        width:930px;
+        height:100px;
+        display:flex;
+        flex-direction:row;
+    }
+
+    .user-dashboard-head{
+        display:flex;
+        width:450px;
+        margin-bottom:10px;
+    }
+    .float{
+        float:left;
+        margin-right:20px;
+    }
+    img{
+        width:50px;
+        height:50px;
+    }
+
+    table{
+        width:430px;
+    }
+
+    td{
+        text-overflow:ellipsis;
+    }
+</style>
